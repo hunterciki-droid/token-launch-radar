@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied launch value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mark">◉</span> TOKEN RADAR</div>
+  <div class="sub">Pre-token protocols, ranked by what a launch would be worth — from the sealed DefiLlama snapshot.</div>
+  <div class="meta" id="meta">Loading snapshot…</div>
+</header>
+
+<section class="stats" id="stats"></section>
+
+<section class="panel controls">
+  <input id="q" type="search" placeholder="Search a protocol…" aria-label="Search protocols">
+  <select id="cat" aria-label="Filter by category"></select>
+  <select id="chain" aria-label="Filter by chain"></select>
+  <select id="minTvl" aria-label="Minimum TVL">
+    <option value="0">Any TVL</option>
+    <option value="10000000">TVL ≥ $10M</option>
+    <option value="50000000">TVL ≥ $50M</option>
+    <option value="100000000">TVL ≥ $100M</option>
+    <option value="500000000">TVL ≥ $500M</option>
+    <option value="1000000000">TVL ≥ $1B</option>
+  </select>
+  <select id="scope" aria-label="Board scope">
+    <option value="ranked">Pre-token board</option>
+    <option value="live">Already trading</option>
+  </select>
+</section>
+
+<section class="panel" id="boardsec">
+  <div class="boardhead"><h2 id="boardtitle">Ranked board</h2><span id="count"></span></div>
+  <div class="scroll">
+  <table id="board">
+    <thead><tr>
+      <th data-sort="rank">#</th>
+      <th data-sort="name">Protocol</th>
+      <th data-sort="category">Category</th>
+      <th data-sort="chains">Chains</th>
+      <th data-sort="tvl_usd">TVL</th>
+      <th data-sort="change_7d">7d</th>
+      <th data-sort="age_days">Age</th>
+      <th data-sort="implied_value_usd">Implied value</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  </div>
+  <p class="hint">Click a row for its detail view and farm plan. Click a column header to sort.</p>
+</section>
+
+<section class="panel detail" id="detail" hidden></section>
+
+<section class="panel model">
+  <h2>How the value is scored <span class="tag" id="modelver"></span></h2>
+  <p class="formula">implied value = TVL × category multiple × growth multiplier × maturity multiplier × chain multiplier</p>
+  <div class="modelgrid" id="modelgrid"></div>
+  <div id="catmult" class="scroll"></div>
+  <p class="fine">One function scores every protocol; no name is ever special-cased. Category multiples are stated assumptions about how each sector's token would price against TVL — capital managers and RWA price the assets they manage, plain infra prices the pipes. Implied value is this radar's own claim, never a prediction of whether or when a token launches.</p>
+</section>
+
+<section class="panel" id="livesec">
+  <h2>Already trading — the market's own values, not ranked</h2>
+  <p class="fine">These protocols already have a token, so the board shows their real market cap for contrast. They are never mixed into the ranking above.</p>
+  <div class="scroll">
+  <table id="livetable">
+    <thead><tr><th>Protocol</th><th>Category</th><th>Chains</th><th>TVL</th><th>Market cap</th><th>7d</th></tr></thead>
+    <tbody id="liverows"></tbody>
+  </table>
+  </div>
+</section>
+
+<footer class="fine">Method: a protocol is pre-token when its DefiLlama record carries no market cap, no CoinGecko id and no symbol. The board leaves out 144 such records that are not launches of their own — centralised exchanges, bridges, liquid-staking wrappers and versioned pools — and ranks the 198 that remain, watchlist floor included. Data: DefiLlama snapshot, frozen at the as-of date above; nothing on this page fetches the network.</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
